@@ -1,0 +1,11 @@
+.sideBar{
+    height: 92.5vh;
+    border: none !important;
+}
+.menu-vertical{
+    margin: 15px !important;
+}
+.menu-vertical .menuItem:hover {
+    background-color: white;
+    color: #07273D;
+}
