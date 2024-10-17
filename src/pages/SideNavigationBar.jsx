@@ -6,17 +6,16 @@ import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const customstyles = {
     display:"flex",
-    flexDirection:"column",
-    alignItems:"center",
-    justifyContent: "center",
+    flexDirection:"row",
     color:"#B3B8BB",
     marginTop:"15px",
     borderRadius:"50%",
     paddingRight:"10px",
-    
+    paddingLeft:"8px"
 }
 
 const SideNavigationBar = () => {
@@ -32,10 +31,10 @@ const SideNavigationBar = () => {
   className="menu-vertical"
   >
     <div>
-    <MenuItem style={customstyles} icon={<AutoAwesomeMosaicIcon/>}></MenuItem>
-    <MenuItem style={customstyles} icon={<LocalGroceryStoreIcon/>}></MenuItem>
-    <MenuItem style={customstyles} icon={<StorefrontIcon/>}></MenuItem>
-    <MenuItem style={customstyles} icon={<AccountBoxIcon/>}></MenuItem>
+    <MenuItem style={customstyles} icon={<AutoAwesomeMosaicIcon/>} ></MenuItem>
+    <MenuItem style={customstyles} icon={<LocalGroceryStoreIcon/>} ></MenuItem>
+    <MenuItem style={customstyles} icon={<StorefrontIcon/>} ></MenuItem>
+    <MenuItem style={customstyles} icon={<AccountBoxIcon/>} ></MenuItem>
     </div>
     <div style={{height:"10px"}}></div>
   </Menu>

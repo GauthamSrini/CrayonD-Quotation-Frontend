@@ -1,5 +1,49 @@
-.topNavMainDiv{
-    width: 100vw;
-    background: #1C1C1C 0% 0% no-repeat padding-box;
-    height: 54px;
+.topNavMainDiv {
+  width: 100vw;
+  background: #1c1c1c 0% 0% no-repeat padding-box;
+  height: 54px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.textProperty {
+  text-align: left;
+  font: normal normal 600 10px/14px Nunito Sans;
+  letter-spacing: 0px;
+  color: #ffffff;
+  text-transform: uppercase;
+  opacity: 1;
+}
+.logoDiv {
+  padding-right: 20px;
+  margin-right: 10px;
+  border-right: 1px solid white;
+}
+.logAndTextDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+}
+.notifyIcon {
+  color: rgb(206, 205, 205);
+}
+.NotifyDiv {
+  padding-right: 10px;
+  margin-right: 10px;
+  border-right: 1px solid white;
+}
+.userName {
+  text-align: left;
+  font: normal normal bold 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+}
+.userRole {
+  text-align: left;
+  font: normal normal normal 10px/14px Nunito Sans;
+  letter-spacing: 0.01px;
+  color: #98a0ac;
+  opacity: 1;
 }
