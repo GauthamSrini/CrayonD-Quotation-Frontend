@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_96257" data-name="Group 96257" transform="translate(0.08 0.03)">
+    <g id="Group_96235" data-name="Group 96235">
+      <g id="Rectangle_51039" data-name="Rectangle 51039" transform="translate(-0.08 -0.03)" fill="#fff" stroke="#707070" stroke-width="1" opacity="0">
+        <rect width="20" height="20" stroke="none"/>
+        <rect x="0.5" y="0.5" width="19" height="19" fill="none"/>
+      </g>
+      <path id="icons8-empty-bed_1_" data-name="icons8-empty-bed (1)" d="M3.562,7.978A.571.571,0,0,0,3,8.558V19.606a.571.571,0,1,0,1.143,0v-.571H17.857v.571a.571.571,0,1,0,1.143,0V16.558a1.342,1.342,0,0,0-1.333-1.333H9.1v-.381a2.294,2.294,0,0,0-2.286-2.286H5.286a2.214,2.214,0,0,0-1.143.353V8.558a.571.571,0,0,0-.58-.58ZM5.286,13.7H6.809a1.135,1.135,0,0,1,1.143,1.143v.381H4.143v-.381A1.135,1.135,0,0,1,5.286,13.7ZM4.143,16.367H8.43a.572.572,0,0,0,.185,0h9.051a.182.182,0,0,1,.19.19v1.333H4.143Z" transform="translate(-1.08 -4.008)" fill="#ced3dd" stroke="#ced3dd" stroke-width="0.5"/>
+    </g>
+  </g>
+</svg>

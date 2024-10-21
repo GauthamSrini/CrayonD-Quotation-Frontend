@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_96257" data-name="Group 96257" transform="translate(0.245 0.03)">
+    <g id="Group_96235" data-name="Group 96235">
+      <g id="Rectangle_51039" data-name="Rectangle 51039" transform="translate(-0.245 -0.03)" fill="#fff" stroke="#707070" stroke-width="1" opacity="0">
+        <rect width="20" height="20" stroke="none"/>
+        <rect x="0.5" y="0.5" width="19" height="19" fill="none"/>
+      </g>
+      <path id="icons8-bathtub_1_" data-name="icons8-bathtub (1)" d="M6.35,4A2.552,2.552,0,0,0,3.806,6.544v3.634H2.535a.545.545,0,0,0-.13,1.076l.788,4.592s0,0,0,0A2.369,2.369,0,0,0,4.9,17.725a.545.545,0,0,0,1.053.082H14.01a.545.545,0,0,0,1.053-.082,2.37,2.37,0,0,0,1.712-1.881h0l.788-4.592a.545.545,0,0,0-.13-1.076H4.9V6.544a1.45,1.45,0,0,1,2.9-.086,1.639,1.639,0,0,0-1.04,1.174A.308.308,0,0,0,7.062,8H9.634a.308.308,0,0,0,.308-.366A1.638,1.638,0,0,0,8.888,6.454,2.55,2.55,0,0,0,6.35,4ZM3.513,11.267H16.454L15.7,15.661a1.263,1.263,0,0,1-1.172,1.05h-.011a.545.545,0,0,0-.08.008H5.531a.545.545,0,0,0-.1-.008h0a1.263,1.263,0,0,1-1.165-1.049Z" transform="translate(0.271 -1.019)" fill="#ced3dd" stroke="#ced3dd" stroke-width="0.5"/>
+    </g>
+  </g>
+</svg>

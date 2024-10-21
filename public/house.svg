@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_96257" data-name="Group 96257" transform="translate(0.076 0.03)">
+    <g id="Group_96235" data-name="Group 96235">
+      <g id="Rectangle_51039" data-name="Rectangle 51039" transform="translate(-0.076 -0.03)" fill="#fff" stroke="#707070" stroke-width="1" opacity="0">
+        <rect width="20" height="20" stroke="none"/>
+        <rect x="0.5" y="0.5" width="19" height="19" fill="none"/>
+      </g>
+      <path id="icons8-home_7_" data-name="icons8-home (7)" d="M12.9,4a.577.577,0,0,0-.338.124L7.1,8.43A2.886,2.886,0,0,0,6,10.7v7.342A.97.97,0,0,0,6.962,19h3.846a.97.97,0,0,0,.962-.962V14.192A.184.184,0,0,1,11.961,14h1.923a.184.184,0,0,1,.192.192v3.846a.97.97,0,0,0,.962.962h3.846a.97.97,0,0,0,.962-.962V10.7a2.886,2.886,0,0,0-1.1-2.266L13.28,4.124A.577.577,0,0,0,12.9,4Zm.019,1.312,5.11,4.026a1.728,1.728,0,0,1,.66,1.359v7.15H15.231V14.192a1.355,1.355,0,0,0-1.346-1.346H11.961a1.355,1.355,0,0,0-1.346,1.346v3.654H7.154V10.7a1.728,1.728,0,0,1,.66-1.359Z" transform="translate(-3.076 -1.03)" fill="#ced3dd" stroke="#ced3dd" stroke-width="0.25"/>
+    </g>
+  </g>
+</svg>

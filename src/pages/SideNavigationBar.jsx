@@ -12,10 +12,23 @@ const customstyles = {
     display:"flex",
     flexDirection:"row",
     color:"#B3B8BB",
-    marginTop:"15px",
+    marginTop:"11px",
     borderRadius:"50%",
-    paddingRight:"10px",
-    paddingLeft:"8px"
+    paddingRight:"15px",
+    paddingLeft:"5px",
+    height:"39px"
+}
+const customstyles1 = {
+  display:"flex",
+  flexDirection:"row",
+  color:"#B3B8BB",
+  marginTop:"11px",
+  borderRadius:"50%",
+  paddingRight:"15px",
+  paddingLeft:"5px",
+  backgroundColor:"#5078E1",
+  color:"white",
+  height:"39px"
 }
 
 const SideNavigationBar = () => {
@@ -24,17 +37,19 @@ const SideNavigationBar = () => {
     className='sideBar'
     width='200px'
     collapsed={true}
-    collapsedWidth='73px'
+    collapsedWidth='65px'
     backgroundColor='#333333'
 >
   <Menu 
   className="menu-vertical"
   >
     <div>
-    <MenuItem style={customstyles} icon={<AutoAwesomeMosaicIcon/>} ></MenuItem>
-    <MenuItem style={customstyles} icon={<LocalGroceryStoreIcon/>} ></MenuItem>
-    <MenuItem style={customstyles} icon={<StorefrontIcon/>} ></MenuItem>
-    <MenuItem style={customstyles} icon={<AccountBoxIcon/>} ></MenuItem>
+    <MenuItem style={customstyles1} icon={<KeyboardArrowRightIcon style={{height:"30px",width:"25px"}}/>}></MenuItem>
+    <hr style={{marginTop:"20px",color:"#d5d9e2",marginBottom:"20px"}}/>
+    <MenuItem style={customstyles} icon={<AutoAwesomeMosaicIcon style={{height:"20px",width:"20px"}}/>} component={<NavLink to="/" />}></MenuItem>
+    <MenuItem style={customstyles} icon={<LocalGroceryStoreIcon style={{height:"20px",width:"20px"}}/>} component={<NavLink to="/page1" />}></MenuItem>
+    <MenuItem style={customstyles} icon={<StorefrontIcon style={{height:"20px",width:"20px"}}/>} component={<NavLink to="/page2" />}></MenuItem>
+    <MenuItem style={customstyles} icon={<AccountBoxIcon style={{height:"20px",width:"20px"}}/>} component={<NavLink to="/page3" />}></MenuItem>
     </div>
     <div style={{height:"10px"}}></div>
   </Menu>

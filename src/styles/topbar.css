@@ -47,3 +47,24 @@
   color: #98a0ac;
   opacity: 1;
 }
+.textSearchDiv {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #5d5d5d 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  padding: 5px 8px 5px 8px;
+  width: 350px;
+  height: 32px;
+}
+.searchTextField {
+  width: 300px;
+  background-color: #5d5d5d;
+  color: #ced3dd;
+  outline: none;
+  border: none;
+  text-align: left;
+  font: normal normal normal 14px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #ced3dd;
+}

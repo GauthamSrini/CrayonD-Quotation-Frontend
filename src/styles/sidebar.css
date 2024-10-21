@@ -9,3 +9,7 @@
     background-color: white;
     color: #07273D;
 }
+.menu-vertical .active {
+    background-color: #5078E1 !important;
+    color: white !important;
+}

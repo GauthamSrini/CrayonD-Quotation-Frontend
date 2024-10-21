@@ -1,0 +1,85 @@
+.primaryTitle {
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #b3776d;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 24px;
+  padding: 16px;
+  background: #feeaea80 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
+}   
+.subTitPrimary {
+  font: normal normal 600 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #98a0ac;
+  text-transform: capitalize;
+  opacity: 1;
+  margin-bottom: 8px;
+}
+.selectComponent {
+  width: 199px;
+}
+.selectComponent2 {
+  width: 215px;
+}
+
+progress {
+  width: 135px; /* Adjust the width */
+  -webkit-appearance: none; /* Remove default styling */
+  appearance: none; /* For cross-browser support */
+  height: 5px; /* Inherit height from container */
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+}
+
+/* Customizing the progress value for WebKit-based browsers */
+progress::-webkit-progress-bar {
+  background-color: #e0e0e0; /* Background color for the unfilled area */
+  border-radius: 10px; /* Outer border radius for WebKit */
+  height: 5px;
+  padding-top: 0px !important;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(
+    --progress-color
+  ); /* Customize the filled color (orange in this case) */
+  border-radius: 10px; /* Border radius for the filled part */
+  height: 5px; /* Match the container's height */
+  padding-top: 0px !important;
+}
+
+/* Customizing the progress value for Firefox */
+progress::-moz-progress-bar {
+  background-color: var(--progress-color); /* Filled color for Firefox */
+  border-radius: 10px; /* Border radius for filled area */
+  height: 5px;
+  padding-top: 0px !important;
+}
+
+.recomValue {
+  text-align: left;
+  font: normal normal bold 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #1c1c1c;
+  opacity: 1;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #e4e8ee;
+  border-radius: 4px;
+  opacity: 1;
+  padding: 12px 0px 12px 12px;
+  margin-top: 6px;
+}
+.subTitSqr {
+  text-align: left;
+  font: normal normal 600 10px/14px Nunito Sans;
+  letter-spacing: 0px;
+  color: #98a0ac;
+  text-transform: capitalize;
+  opacity: 1;
+  margin-top: 6px;
+}

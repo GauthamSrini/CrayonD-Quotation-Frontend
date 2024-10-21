@@ -16,26 +16,9 @@ const TopNavigationBar = () => {
         </div>
         <div className="textProperty">PROPERTY MANAGEMENT SOLUTION</div>
       </div>
-      <div>
-        <TextField
-          size="small"
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start"><SearchIcon style={{color:"#98a0ac"}}/></InputAdornment>
-              )
-            },
-          }}
-          sx={{
-            width:"350px",
-            background: "#5D5D5D 0% 0% no-repeat padding-box",
-            borderRadius: "4px",
-            color:"white",
-            outline:"none"
-          }}
-          placeholder="Search"
-          variant="outlined"
-        />
+      <div className="textSearchDiv">
+        <div><SearchIcon style={{color:"#CED3DD",height:"19px",width:"19px"}} /></div>
+        <div><input type="text" className="searchTextField" placeholder="Search"/></div>
       </div>
       <div style={{display:"flex"}}>
         <div className="NotifyDiv">

@@ -16,12 +16,13 @@ function App() {
       <div style={{display:"flex"}}>
         <div className='topNavDiv'><SideNavigationBar/></div>
         <div>
-          <BrowserRouter>
             <Routes>
               <Route path='/' element={<Dashboard/>}/>
               <Route path='/page1' element={<Quotation/>}/>
+              <Route path='/page2' element={<Quotation/>}/>
+              <Route path='/page3' element={<Quotation/>}/>
+              <Route path='/page4' element={<Quotation/>}/>
             </Routes>
-          </BrowserRouter>
         </div>
       </div>
     </div>

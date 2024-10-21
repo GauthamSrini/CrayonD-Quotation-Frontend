@@ -50,7 +50,7 @@
 
 .WorkingDiv {
   width: 92vw;
-  height: 80vh;
+  height: 81vh;
   /* UI Properties */
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 0px 16px #00000014;
@@ -87,4 +87,245 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.LeadDetailDiv {
+  height: 64vh;
+  width: 28vw;
+  padding: 16px;
+}
+.leadTitle {
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  opacity: 1;
+  margin-bottom: 16.5px;
+}
+.profileCardDiv {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  border: 1px solid #e4e8ee;
+  border-radius: 4px;
+  opacity: 1;
+  margin-bottom: 20px;
+}
+.Name {
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: -0.11px;
+  color: #091b29;
+  text-transform: capitalize;
+  opacity: 1;
+}
+.role {
+  background: #5078e11e 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  text-align: right;
+  font: normal normal bold 10px/16px Nunito Sans;
+  letter-spacing: -0.08px;
+  color: #091b29;
+  opacity: 1;
+  padding: 1px 6px 1px 6px;
+}
+.phone {
+  text-align: left;
+  font: normal normal normal 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  opacity: 1;
+}
+.email {
+  text-align: left;
+  font: normal normal normal 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  opacity: 1;
+}
+.quotationTitDiv {
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  opacity: 1;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.dateTitles {
+  text-align: left;
+  font: normal normal 600 8px/11px Nunito Sans;
+  letter-spacing: 0px;
+  color: #98a0ac;
+  text-transform: uppercase;
+  opacity: 1;
+  margin-bottom: 6px;
+}
+.date {
+  text-align: left;
+  font: normal normal 600 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  text-transform: capitalize;
+  opacity: 1;
+}
+.unitsDiv {
+  background: #f5f7fae6 0% 0% no-repeat padding-box;
+  opacity: 1;
+  padding: 16px;
+  width: 34vw;
+  height: 64vh;
+  overflow-y: auto;
+}
+.unitTitle {
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  opacity: 1;
+}
+.singleUnit {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #e4e8ee;
+  border-radius: 6px;
+  opacity: 1;
+  width: 225px;
+  height: 234px;
+  padding: 12px;
+}
+.unitTitle {
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  opacity: 1;
+}
+.unitPrice {
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  opacity: 1;
+}
+.unitPlace {
+  text-align: left;
+  font: normal normal normal 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #98a0ac;
+  opacity: 1;
+}
+.unitSquareFeet {
+  text-align: left;
+  font: normal normal normal 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #98a0ac;
+  opacity: 1;
+}
+.unitNumber {
+  text-align: left;
+  font: normal normal normal 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #98a0ac;
+  opacity: 1;
+}
+.units {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 17px;
+}
+.qtSummaryTit {
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  opacity: 1;
+}
+.qtFinalDiv {
+  padding: 16px;
+}
+.qtAmtDiv {
+  width: 400px;
+  height: 414px;
+  background: #f5f7fa 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  margin: 16px 24px 0px 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.qtFinalRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  padding-bottom: 5px;
+}
+.qtFinalRow .tit {
+  text-align: left;
+  font: normal normal bold 10px/14px Nunito Sans;
+  letter-spacing: 0px;
+  color: #98a0ac;
+  opacity: 1;
+}
+.qtFinalRow .subtit {
+  font: normal normal 600 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  text-transform: capitalize;
+  opacity: 1;
+  width: 115px;
+}
+.qtFinalRow .quantity {
+  font: normal normal 600 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  text-transform: capitalize;
+  opacity: 1;
+  width: 35px;
+}
+.qtFinalRow .FinalAmt {
+  text-align: right;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  opacity: 1;
+}
+.qtFinalRowRefundables{
+    display: flex;
+    gap: 21%;
+    padding: 10px;
+    padding-bottom: 5px;
+}
+.btnMainDiv {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 8px 0px 8px;
+}
+.btnMainDiv .btns {
+  display: flex;
+  gap: 10px;
+  padding-right: 70px;
+}
+.menuDiv {
+  box-shadow: none !important;
+}
+.pricingTbTit {
+  text-align: left;
+  font: normal normal 800 16px/22px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  opacity: 1;
+}
+.pricingTopDiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px 16px 24px;
+    border-bottom: 1px solid #d5d9e2;
+    margin-bottom: 20px;
+}
+::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
 }
