@@ -22,7 +22,13 @@ import OneTimeCharges from "../components/pricingTable/OneTimeCharges";
 import Refundables from "../components/pricingTable/Refundables";
 import InventoryItems from "../components/pricingTable/InventoryItems";
 import ParkingSlot from "../components/pricingTable/ParkingSlot";
-import PoolIcon from '@mui/icons-material/Pool';
+import PoolIcon from "@mui/icons-material/Pool";
+import Switch from "@mui/material/Switch";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 const style = {
   position: "absolute",
@@ -36,16 +42,32 @@ const style = {
   marginBottom: "10px",
 };
 
+const style1 = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "432px",
+  bgcolor: "background.paper",
+  borderRadius: "5px",
+  boxShadow: 24,
+  marginBottom: "10px",
+};
+
 const Quotation = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [priceModalOpen, setPriceModalOpen] = useState(false);
   const [amenityModalOpen, setAmenityModalOpen] = useState(false);
   const [componentOpen, setComponentOpen] = useState(true);
   const [selectedPricingId, setSelectedPricingId] = useState(null);
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [selectedUtilities, setSelectedUtilities] = useState([])
+  const [utilityModalOpen, setUtilityModalOpen] = useState(null)
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const label = { inputProps: { "aria-label": "Switch demo" } };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -57,6 +79,10 @@ const Quotation = () => {
   const handleAmenityOpen = () => {
     setAmenityModalOpen(true);
   };
+
+  const handleUtilityOpen = () => {
+    setUtilityModalOpen(true)
+  }
 
   const handlePricingSelection = (price) => {
     setComponentOpen(false);
@@ -76,6 +102,40 @@ const Quotation = () => {
 
   const handleClosingAmenityModal = () => {
     setAmenityModalOpen(false);
+  };
+  
+  const handleClosingUtilityMOdal = () => {
+    setUtilityModalOpen(false)
+  }
+
+
+
+  // Handle toggle of Switch
+  const handleToggleAmenity = (id) => {
+    if (selectedAmenities.includes(id)) {
+      // Remove the ID if already selected (i.e., toggle off)
+      setSelectedAmenities(
+        selectedAmenities.filter((amenityId) => amenityId !== id)
+      );
+    } else {
+      // Add the ID if not selected (i.e., toggle on)
+      setSelectedAmenities([...selectedAmenities, id]);
+      console.log(selectedAmenities);
+    }
+  };
+
+  // Handle toggle of Switch
+  const handleToggleUtility = (id) => {
+    if (selectedUtilities.includes(id)) {
+      // Remove the ID if already selected (i.e., toggle off)
+      setSelectedUtilities(
+        selectedAmenities.filter((utilityId) => utilityId !== id)
+      );
+    } else {
+      // Add the ID if not selected (i.e., toggle on)
+      setSelectedUtilities([...selectedUtilities, id]);
+      console.log(selectedUtilities);
+    }
   };
 
   const options = [
@@ -174,6 +234,132 @@ const Quotation = () => {
       name: "Parking Slot",
       textColor: "#B3776D",
       bgColor: "#FEEAEA80",
+    },
+  ];
+
+  const amenitis = [
+    {
+      id: 1,
+      name: "Amenity Name",
+      price: 3000,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 2,
+      name: "Amenity Name",
+      price: 2000,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 3,
+      name: "Amenity Name",
+      price: 4500,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 4,
+      name: "Amenity Name",
+      price: 5464,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 5,
+      name: "Amenity Name",
+      price: 9878,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 6,
+      name: "Amenity Name",
+      price: 3564,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 7,
+      name: "Amenity Name",
+      price: 5000,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 8,
+      name: "Amenity Name",
+      price: 4500,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 9,
+      name: "Amenity Name",
+      price: 6500,
+      path: "/amenity.jpeg",
+    },
+    {
+      id: 10,
+      name: "Amenity Name",
+      price: 8500,
+      path: "/amenity.jpeg",
+    },
+  ];
+
+  const utilities = [
+    {
+      id: 1,
+      name: "Utility Name",
+      price: 3000,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 2,
+      name: "Utility Name",
+      price: 2000,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 3,
+      name: "Utility Name",
+      price: 4500,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 4,
+      name: "Utility Name",
+      price: 5464,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 5,
+      name: "Utility Name",
+      price: 9878,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 6,
+      name: "Utility Name",
+      price: 3564,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 7,
+      name: "Utility Name",
+      price: 5000,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 8,
+      name: "Utility Name",
+      price: 4500,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 9,
+      name: "Utility Name",
+      price: 6500,
+      path: "/Utility.jpg",
+    },
+    {
+      id: 10,
+      name: "Utility Name",
+      price: 8500,
+      path: "/Utility.jpg",
     },
   ];
 
@@ -480,6 +666,7 @@ const Quotation = () => {
                           Add Amenities
                         </MenuItem>
                         <MenuItem
+                          onClick={handleUtilityOpen}
                           sx={{
                             borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
                             font: "normal normal 600 12px/16px Nunito Sans",
@@ -697,7 +884,7 @@ const Quotation = () => {
           </Box>
         </Modal>
         <Modal open={amenityModalOpen} onClose={handleClosingAmenityModal}>
-          <Box sx={style}>
+          <Box sx={style1}>
             <div>
               <div className="pricingTopDiv">
                 <div className="pricingTbTit">Add Amenities</div>
@@ -707,6 +894,245 @@ const Quotation = () => {
                     style={{ color: "#7C8594", height: "20px", width: "20px" }}
                   />
                 </div>
+              </div>
+              <div
+                className="primaryTitle"
+                style={{ color: "#B3776D", backgroundColor: "#FEEAEA80" }}
+              >
+                <div><PoolIcon/> 05 Total Amenities</div>
+                <div>$ 200.00</div>
+              </div>
+              <div
+                style={{
+                  margin: "24px",
+                  font: "normal normal 600 14px/19px Nunito Sans",
+                  color: "#98A0AC",
+                }}
+              >
+                Available Amenities
+              </div>
+              <div className="amenityListDiv">
+                {amenitis.map((amenity) => (
+                  <div className="amenityDiv" key={amenity.id} style={{paddingBottom:"0px"}}>
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div style={{ display: "flex", gap: "10px",marginBottom:"10px" }}>
+                        <div>
+                          <img
+                            style={{
+                              height: "44px",
+                              width: "44px",
+                              borderRadius: "5px",
+                            }}
+                            src={amenity.path}
+                            alt=""
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div className="amenityName">{amenity.name}</div>
+                          <div className="amenityPrice">
+                            <div>$ {amenity.price.toFixed(2)}</div>
+                            <div>
+                              <FiberManualRecordIcon
+                                style={{
+                                  color: "#E4E8EE",
+                                  height: "12px",
+                                  width: "12px",
+                                }}
+                              />
+                            </div>
+                            <div>Valid Feb 22 - 12 Feb 23</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <Switch
+                          {...label}
+                          checked={selectedAmenities.includes(amenity.id)} // Switch state
+                          onChange={() => handleToggleAmenity(amenity.id)} // Toggle handler
+                        />
+                      </div>
+                    </div>
+                    {selectedAmenities.includes(amenity.id)?
+                    <div className="radioFreeDiv">
+                      <FormControl>
+                            <div className="radiobtn">
+                              <FormControlLabel
+                                value={"Free applicability"}
+                                control={<Radio 
+                                  sx={{
+                                    '& .MuiSvgIcon-root': {
+                                      fontSize: 16, // Adjust this value to reduce the size
+                                      margin:"0px !important"
+                                    }
+                                  }}
+                                />}
+                                slotProps={{
+                                  typography: {
+                                    sx: {
+                                      font: "normal normal 600 12px/16px Nunito Sans",
+                                    },
+                                  },
+                                }}
+                                label={"Free applicability"}
+                                // onClick={() => handleRadioButtonChange(product)}
+                              />
+                            </div>
+                      </FormControl>
+                    </div>:null}
+                  </div>
+                ))}
+              </div>
+              <div style={{ margin: "24px" }}>
+                <ButtonComponent
+                  value={"Update And Save"}
+                  variant={"outlined"}
+                  borderColor={"#5078E1"}
+                  backgroundColor={"#5078E1"}
+                  color={"white"}
+                  width={"100%"}
+                  font={"normal normal bold 14px/19px Nunito Sans"}
+                  padding={"10px 16px 10px 16px"}
+                />
+              </div>
+            </div>
+          </Box>
+        </Modal>
+        <Modal open={utilityModalOpen} onClose={handleClosingUtilityMOdal}>
+          <Box sx={style1}>
+            <div>
+              <div className="pricingTopDiv">
+                <div className="pricingTbTit">Add Utilities</div>
+                <div>
+                  <ClearIcon
+                    onClick={handleClosingUtilityMOdal}
+                    style={{ color: "#7C8594", height: "20px", width: "20px" }}
+                  />
+                </div>
+              </div>
+              <div
+                className="primaryTitle"
+                style={{ color: "#6DAFB3", backgroundColor: "#DBF0F180" }}
+              >
+                <div><AutoAwesomeIcon/> 05 Total Utilities</div>
+                <div>$ 200.00</div>
+              </div>
+              <div
+                style={{
+                  margin: "24px",
+                  font: "normal normal 600 14px/19px Nunito Sans",
+                  color: "#98A0AC",
+                }}
+              >
+                Available Utilities
+              </div>
+              <div className="amenityListDiv">
+                {utilities.map((amenity) => (
+                  <div className="amenityDiv" key={amenity.id} style={{paddingBottom:"0px"}}>
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div style={{ display: "flex", gap: "10px",marginBottom:"10px" }}>
+                        <div>
+                          <img
+                            style={{
+                              height: "44px",
+                              width: "44px",
+                              borderRadius: "5px",
+                            }}
+                            src={amenity.path}
+                            alt=""
+                          />
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div className="amenityName">{amenity.name}</div>
+                          <div className="amenityPrice">
+                            <div>$ {amenity.price.toFixed(2)}</div>
+                            <div>
+                              <FiberManualRecordIcon
+                                style={{
+                                  color: "#E4E8EE",
+                                  height: "12px",
+                                  width: "12px",
+                                }}
+                              />
+                            </div>
+                            <div>Valid Feb 22 - 12 Feb 23</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <Switch
+                          {...label}
+                          checked={selectedUtilities.includes(amenity.id)} // Switch state
+                          onChange={() => handleToggleUtility(amenity.id)} // Toggle handler
+                        />
+                      </div>
+                    </div>
+                    {selectedUtilities.includes(amenity.id)?
+                    <div className="radioFreeDiv">
+                      <FormControl>
+                            <div className="radiobtn">
+                              <FormControlLabel
+                                value={"Free applicability"}
+                                control={<Radio 
+                                  sx={{
+                                    '& .MuiSvgIcon-root': {
+                                      fontSize: 16, // Adjust this value to reduce the size
+                                      margin:"0px !important"
+                                    }
+                                  }}
+                                />}
+                                slotProps={{
+                                  typography: {
+                                    sx: {
+                                      font: "normal normal 600 12px/16px Nunito Sans",
+                                    },
+                                  },
+                                }}
+                                label={"Free applicability"}
+                                // onClick={() => handleRadioButtonChange(product)}
+                              />
+                            </div>
+                      </FormControl>
+                    </div>:null}
+                  </div>
+                ))}
+              </div>
+              <div style={{ margin: "24px" }}>
+                <ButtonComponent
+                  value={"Update And Save"}
+                  variant={"outlined"}
+                  borderColor={"#5078E1"}
+                  backgroundColor={"#5078E1"}
+                  color={"white"}
+                  width={"100%"}
+                  font={"normal normal bold 14px/19px Nunito Sans"}
+                  padding={"10px 16px 10px 16px"}
+                />
               </div>
             </div>
           </Box>

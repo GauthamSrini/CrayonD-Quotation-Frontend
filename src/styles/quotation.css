@@ -292,11 +292,11 @@
   color: #091b29;
   opacity: 1;
 }
-.qtFinalRowRefundables{
-    display: flex;
-    gap: 21%;
-    padding: 10px;
-    padding-bottom: 5px;
+.qtFinalRowRefundables {
+  display: flex;
+  gap: 21%;
+  padding: 10px;
+  padding-bottom: 5px;
 }
 .btnMainDiv {
   display: flex;
@@ -318,13 +318,43 @@
   color: #091b29;
   opacity: 1;
 }
-.pricingTopDiv{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px 16px 24px;
-    border-bottom: 1px solid #d5d9e2;
-    margin-bottom: 20px;
+.pricingTopDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 16px 24px;
+  border-bottom: 1px solid #d5d9e2;
+  margin-bottom: 20px;
+}
+.amenityListDiv {
+  height: 50vh;
+  overflow-y: auto;
+  margin: 24px;
+}
+.amenityDiv {
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #d5d9e2;
+  border-radius: 5px;
+}
+.amenityName {
+  text-align: left;
+  font: normal normal 700 16px/22px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  opacity: 1;
+}
+.amenityPrice {
+  display: flex;
+  gap: 5px;
+  text-align: left;
+  font: normal normal 600 12px/16px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  opacity: 1;
+}
+.radioFreeDiv{
+    border-top: 1px solid #d5d9e2;
 }
 ::-webkit-scrollbar {
   display: none; /* For Chrome, Safari, and Opera */
