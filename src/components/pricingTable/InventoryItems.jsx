@@ -1,71 +1,73 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "../../styles/pricing_component.css";
 import ButtonComponent from "../button/ButtonComponent";
 import Select from "react-select";
 import { TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import axios from "axios";
 
 const InventoryItems = (props) => {
   const [selectedRevenueType, setSelectedRevenueType] = useState(1);
   const [selectedComponentBasedOn, setSelectedComponentBasedOn] = useState(1);
   const [isChargable, setIsChargable] = useState(1);
-  const revenueTypes = [
-    {
-      id: 1,
-      name: "Lease",
-    },
-    {
-      id: 2,
-      name: "Sales",
-    },
-    {
-      id: 3,
-      name: "Manager",
-    },
-    {
-      id: 4,
-      name: "Stay",
-    },
-  ];
-  const pricing_components = [
-    {
-      id: 1,
-      name: "Pricing Component",
-    },
-    {
-      id: 2,
-      name: "Digital Component",
-    },
-  ];
-
-  const tax_group = [
-    {
-      id: 1,
-      name: "GST",
-    },
-    {
-      id: 2,
-      name: "IGST",
-    },
-    {
-      id: 3,
-      name: "SGST",
-    },
-    {
-      id: 4,
-      name: "UTGST",
-    },
-  ];
-
-  const PricingList = pricing_components.map((price) => ({
-    value: price.id,
-    label: price.name,
-  }));
-
-  const TaxList = tax_group.map((tax) => ({
-    value: tax.id,
-    label: tax.name,
-  }));
+  const [revenueTypesData, setRevenueTypesData] = useState([]);
+    const [pricingComponentData, setPrcingComponentData] = useState([]);
+    const [taxGroupsData, setTaxGroupsData] = useState([]);
+  
+    const fetchrevenueTyeps = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8081/master/revenueTypes"
+        );
+        if (response.status === 200) {
+          setRevenueTypesData(response.data);
+        }
+      } catch (error) {
+        console.log("Error fetching revenue types", error);
+      }
+    };
+  
+    const fetchPricingComponent = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8081/master/pricingComponent"
+        );
+        if (response.status === 200) {
+          setPrcingComponentData(response.data);
+        }
+      } catch (error) {
+        console.log("Error fetching pricing Compoennts", error);
+      }
+    };
+  
+    const fetchTaxGroups = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8081/master/taxGroups"
+        );
+        if (response.status === 200) {
+          setTaxGroupsData(response.data);
+        }
+      } catch (error) {
+        console.log("Error fetching Tax Groups", error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchrevenueTyeps();
+      fetchPricingComponent();
+      fetchTaxGroups();
+    }, []);
+  
+    const PricingList = pricingComponentData.map((price) => ({
+      value: price.id,
+      label: price.name,
+    }));
+  
+    const TaxList = taxGroupsData.map((tax) => ({
+      value: tax.id,
+      label: tax.name,
+    }));
 
   const customStyles = {
     control: (provided) => ({
@@ -107,7 +109,7 @@ const InventoryItems = (props) => {
         <div>
           <div className="subTitPrimary">Revenue Type</div>
           <div style={{ display: "flex", gap: "5px" }}>
-            {revenueTypes.map((revenue) => (
+            {revenueTypesData.map((revenue) => (
               <ButtonComponent
                 value={revenue.name}
                 variant={"outlined"}

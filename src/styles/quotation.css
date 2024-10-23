@@ -353,8 +353,96 @@
   color: #4e5a6b;
   opacity: 1;
 }
-.radioFreeDiv{
-    border-top: 1px solid #d5d9e2;
+.radioFreeDiv {
+  border-top: 1px solid #d5d9e2;
+}
+.unitImgAndDiscriptionDiv {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+.unitImgDiv {
+  display: flex;
+  gap: 10px;
+}
+.subImagesDiv {
+  width: 170px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.unitDetailsTitle {
+  text-align: left;
+  font: normal normal bold 18px/24px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  opacity: 1;
+}
+.unitId {
+  background: #f5f7fa 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  text-align: left;
+  font: normal normal bold 12px/16px Nunito Sans;
+  letter-spacing: -0.1px;
+  color: #98a0ac;
+  opacity: 1;
+}
+.unitPricingDetailsDiv {
+  display: flex;
+  flex-direction: column;
+  width: 434px;
+  height: 586px;
+  background: #f8f9fb 0% 0% no-repeat padding-box;
+  border-radius: 16px;
+  padding: 20px;
+  justify-content: space-between;
+}
+.unitPricingDetailsDiv .t1 {
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  text-transform: uppercase;
+  opacity: 1;
+}
+.billMainDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 0px 12px 0px;
+  border-bottom: 1px solid #d5d9e2;
+}
+.billTitlePrice {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  font: normal normal 650 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #4e5a6b;
+  opacity: 1;
+}
+.billDiscountDiv {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  font: italic normal normal 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #98a0ac;
+  opacity: 1;
+}
+.billsFinalPriceInfo {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  text-align: left;
+  font: normal normal bold 14px/19px Nunito Sans;
+  letter-spacing: 0px;
+  color: #091b29;
+  opacity: 1;
+  background: #e4e8ee 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
 }
 ::-webkit-scrollbar {
   display: none; /* For Chrome, Safari, and Opera */

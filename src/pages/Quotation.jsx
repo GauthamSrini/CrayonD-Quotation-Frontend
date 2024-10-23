@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/quotation.css";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -28,7 +28,11 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addSelectedAmenities } from "../slices/QuotationSlice";
 
 const style = {
   position: "absolute",
@@ -36,6 +40,18 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "484px",
+  bgcolor: "background.paper",
+  borderRadius: "5px",
+  boxShadow: 24,
+  marginBottom: "10px",
+};
+
+const style2 = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "888px",
   bgcolor: "background.paper",
   borderRadius: "5px",
   boxShadow: 24,
@@ -61,28 +77,109 @@ const Quotation = () => {
   const [componentOpen, setComponentOpen] = useState(true);
   const [selectedPricingId, setSelectedPricingId] = useState(null);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
-  const [selectedUtilities, setSelectedUtilities] = useState([])
-  const [utilityModalOpen, setUtilityModalOpen] = useState(null)
+  const [selectedUtilities, setSelectedUtilities] = useState([]);
+  const [utilityModalOpen, setUtilityModalOpen] = useState(null);
+  const [unitsData, setUnitsData] = useState([]);
+  const [amenitiesData, setAmenitiesData] = useState([]);
+  const [utilitiesData, setUtilitiesData] = useState([]);
+  const [unitTotalPrice, setUnitTotalPrice] = useState(null);
+  const [unitDetailModalOpen, setUnitDetailModalOpen] = useState(false);
+  const [selectedUnit, setSelectedUnit] = useState({});
+  const dispatch = useDispatch();
+  const primarybills = useSelector((s) => s.quotation.primary_prices.prices);
+  const secondarybills = useSelector(
+    (s) => s.quotation.secondary_prices.prices
+  );
+  const amenitybills = useSelector(
+    (s) => s.quotation.amenities.selected_amenities
+  );
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const label = { inputProps: { "aria-label": "Switch demo" } };
+  const [combinedBills, setCombinedBills] = useState([]);
+
+  useEffect(() => {
+    const combined = [...primarybills, ...secondarybills, ...amenitybills];
+    setCombinedBills(combined);
+  }, [primarybills, secondarybills, amenitybills]);
+
+  const fetchunitsData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/master/units");
+      if (response.status === 200) {
+        setUnitsData(response.data);
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log("error fetching Units Data", error);
+    }
+  };
+
+  const fetchAmenitiesData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/master/amenities"
+      );
+      if (response.status === 200) {
+        setAmenitiesData(response.data);
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log("error fetching Amenities Data", error);
+    }
+  };
+
+  const fetchUtilitiesData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/master/utilities"
+      );
+      if (response.status === 200) {
+        setUtilitiesData(response.data);
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log("error fetching Utilities Data", error);
+    }
+  };
+
+  const calculateUnitTotal = () => {
+    primarybills.map((bills) => {
+      if (bills.unit_id === selectedUnit.id) {
+        setUnitTotalPrice(unitTotalPrice + bills.total);
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchunitsData();
+    fetchAmenitiesData();
+    fetchUtilitiesData();
+  }, []);
+
+  useEffect(() => {
+    calculateUnitTotal();
+  }, [unitDetailModalOpen]);
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handlePricingOpen = () => {
+  const handlePricingOpen = (unit) => {
     setPriceModalOpen(true);
+    setSelectedUnit(unit);
   };
 
-  const handleAmenityOpen = () => {
+  const handleAmenityOpen = (unit) => {
     setAmenityModalOpen(true);
+    setSelectedUnit(unit);
   };
 
   const handleUtilityOpen = () => {
-    setUtilityModalOpen(true)
-  }
+    setUtilityModalOpen(true);
+  };
 
   const handlePricingSelection = (price) => {
     setComponentOpen(false);
@@ -103,25 +200,67 @@ const Quotation = () => {
   const handleClosingAmenityModal = () => {
     setAmenityModalOpen(false);
   };
-  
+
   const handleClosingUtilityMOdal = () => {
-    setUtilityModalOpen(false)
-  }
+    setUtilityModalOpen(false);
+  };
 
+  const handleCloseUnitDetailsModal = () => {
+    setUnitDetailModalOpen(false);
+    setSelectedUnit({});
+  };
 
+  const handleUnitDetailOpen = (unit) => {
+    setUnitDetailModalOpen(true);
+    console.log(unit);
+    setSelectedUnit(unit);
+  };
 
   // Handle toggle of Switch
-  const handleToggleAmenity = (id) => {
-    if (selectedAmenities.includes(id)) {
-      // Remove the ID if already selected (i.e., toggle off)
+  const handleToggleAmenity = (amenity, unit) => {
+    const { id, price, name } = amenity; // destructure additional data
+    const amenityExists = selectedAmenities.find(
+      (item) => item.amenity_id === id
+    );
+
+    if (amenityExists) {
+      // Remove the object if already selected (toggle off)
       setSelectedAmenities(
-        selectedAmenities.filter((amenityId) => amenityId !== id)
+        selectedAmenities.filter((item) => item.amenity_id !== id)
       );
     } else {
-      // Add the ID if not selected (i.e., toggle on)
-      setSelectedAmenities([...selectedAmenities, id]);
-      console.log(selectedAmenities);
+      // Add new object to selectedAmenities (toggle on)
+      setSelectedAmenities([
+        ...selectedAmenities,
+        {
+          amenity_id: id,
+          bill_name: name,
+          free_applicable: false, // default to false
+          unit_id: unit, // Add any unit or extra data here
+          price: price,
+          discount_percent: 0,
+          discount_amount: 0,
+          total:price,
+        },
+      ]);
     }
+    console.log(selectedAmenities);
+  };
+
+  // Handle change of "Free applicability" radio button
+  const handleRadioChange = (amenityId) => {
+    setSelectedAmenities((prevAmenities) =>
+      prevAmenities.map((item) =>
+        item.amenity_id === amenityId
+          ? { ...item, free_applicable: true } // Update free_applicable
+          : item
+      )
+    );
+    console.log(selectedAmenities);
+  };
+
+  const handleSelectedAmenities = () => {
+    dispatch(addSelectedAmenities(selectedAmenities));
   };
 
   // Handle toggle of Switch
@@ -144,58 +283,6 @@ const Quotation = () => {
     { name: "Preview And Create Lead" },
     { name: "Quotation Details" },
     { name: "Preview And Create" },
-  ];
-  const units = [
-    {
-      name: "Jumeirah Estate",
-      path: "/unit.jpg",
-      place: "Jumeirah Golf Estate",
-      price: 900,
-      square_feet: 5000,
-      bathroom: 2,
-      bedroom: 2,
-      bhk: 2,
-    },
-    {
-      name: "Jumeirah Estate",
-      path: "/unit.jpg",
-      place: "Jumeirah Golf Estate",
-      price: 900,
-      square_feet: 5000,
-      bathroom: 2,
-      bedroom: 2,
-      bhk: 2,
-    },
-    {
-      name: "Jumeirah Estate",
-      path: "/unit.jpg",
-      place: "Jumeirah Golf Estate",
-      price: 900,
-      square_feet: 5000,
-      bathroom: 2,
-      bedroom: 2,
-      bhk: 2,
-    },
-    {
-      name: "Jumeirah Estate",
-      path: "/unit.jpg",
-      place: "Jumeirah Golf Estate",
-      price: 900,
-      square_feet: 5000,
-      bathroom: 2,
-      bedroom: 2,
-      bhk: 2,
-    },
-    {
-      name: "Jumeirah Estate",
-      path: "/unit.jpg",
-      place: "Jumeirah Golf Estate",
-      price: 900,
-      square_feet: 5000,
-      bathroom: 2,
-      bedroom: 2,
-      bhk: 2,
-    },
   ];
 
   const pricing_components = [
@@ -237,131 +324,7 @@ const Quotation = () => {
     },
   ];
 
-  const amenitis = [
-    {
-      id: 1,
-      name: "Amenity Name",
-      price: 3000,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 2,
-      name: "Amenity Name",
-      price: 2000,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 3,
-      name: "Amenity Name",
-      price: 4500,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 4,
-      name: "Amenity Name",
-      price: 5464,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 5,
-      name: "Amenity Name",
-      price: 9878,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 6,
-      name: "Amenity Name",
-      price: 3564,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 7,
-      name: "Amenity Name",
-      price: 5000,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 8,
-      name: "Amenity Name",
-      price: 4500,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 9,
-      name: "Amenity Name",
-      price: 6500,
-      path: "/amenity.jpeg",
-    },
-    {
-      id: 10,
-      name: "Amenity Name",
-      price: 8500,
-      path: "/amenity.jpeg",
-    },
-  ];
-
-  const utilities = [
-    {
-      id: 1,
-      name: "Utility Name",
-      price: 3000,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 2,
-      name: "Utility Name",
-      price: 2000,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 3,
-      name: "Utility Name",
-      price: 4500,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 4,
-      name: "Utility Name",
-      price: 5464,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 5,
-      name: "Utility Name",
-      price: 9878,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 6,
-      name: "Utility Name",
-      price: 3564,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 7,
-      name: "Utility Name",
-      price: 5000,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 8,
-      name: "Utility Name",
-      price: 4500,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 9,
-      name: "Utility Name",
-      price: 6500,
-      path: "/Utility.jpg",
-    },
-    {
-      id: 10,
-      name: "Utility Name",
-      price: 8500,
-      path: "/Utility.jpg",
-    },
-  ];
+  
 
   return (
     <div className="qtMainContent">
@@ -466,18 +429,19 @@ const Quotation = () => {
           <div className="unitsDiv">
             <div className="unitTitle">Unit Details</div>
             <div className="units">
-              {units.map((unit) => (
+              {unitsData.map((unit) => (
                 <div className="singleUnit">
                   <div style={{ position: "relative" }}>
                     <img
                       className="unitImg"
-                      src={unit.path}
+                      src="/unit.jpg"
                       alt=""
                       style={{
                         borderRadius: "4px",
                         width: "198px",
                         height: "100px",
                       }}
+                      onClick={() => handleUnitDetailOpen(unit)}
                     />
                     <div
                       style={{
@@ -500,10 +464,10 @@ const Quotation = () => {
                         marginTop: "14px",
                       }}
                     >
-                      <div className="unitTitle">{unit.name}</div>
+                      <div className="unitTitle">{unit.unit_name}</div>
                       <div className="unitPrice">
                         <AttachMoneyIcon style={{ height: "17px" }} />
-                        {unit.price}
+                        {unit.square_feet}
                       </div>
                     </div>
                     <div
@@ -546,7 +510,7 @@ const Quotation = () => {
                             }}
                           />
                         </div>
-                        <div className="unitNumber">{unit.bedroom}</div>
+                        <div className="unitNumber">{unit.bed_room_count}</div>
                       </div>
                       <div>
                         <FiberManualRecordIcon
@@ -568,7 +532,7 @@ const Quotation = () => {
                             }}
                           />
                         </div>
-                        <div className="unitNumber">{unit.bathroom}</div>
+                        <div className="unitNumber">{unit.wash_room_count}</div>
                       </div>
                       <div>
                         <FiberManualRecordIcon
@@ -590,7 +554,7 @@ const Quotation = () => {
                             }}
                           />
                         </div>
-                        <div className="unitNumber">{unit.bhk}BHK</div>
+                        <div className="unitNumber">2 BHK</div>
                       </div>
                     </div>
                   </div>
@@ -646,7 +610,7 @@ const Quotation = () => {
                         }}
                       >
                         <MenuItem
-                          onClick={handlePricingOpen}
+                          onClick={() => handlePricingOpen(unit)}
                           sx={{
                             borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
                             font: "normal normal 600 12px/16px Nunito Sans",
@@ -656,7 +620,7 @@ const Quotation = () => {
                           Add Pricing Component
                         </MenuItem>
                         <MenuItem
-                          onClick={handleAmenityOpen}
+                          onClick={() => handleAmenityOpen(unit)}
                           sx={{
                             borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
                             font: "normal normal 600 12px/16px Nunito Sans",
@@ -867,17 +831,35 @@ const Quotation = () => {
                   ) : null
                 )}
                 {selectedPricingId === 1 ? (
-                  <Primary back={handlePricingDeSelection} />
+                  <Primary
+                    back={handlePricingDeSelection}
+                    unit={selectedUnit}
+                  />
                 ) : selectedPricingId === 2 ? (
-                  <Secondary back={handlePricingDeSelection} />
+                  <Secondary
+                    back={handlePricingDeSelection}
+                    unit={selectedUnit}
+                  />
                 ) : selectedPricingId === 3 ? (
-                  <OneTimeCharges back={handlePricingDeSelection} />
+                  <OneTimeCharges
+                    back={handlePricingDeSelection}
+                    unit={selectedUnit}
+                  />
                 ) : selectedPricingId === 4 ? (
-                  <Refundables back={handlePricingDeSelection} />
+                  <Refundables
+                    back={handlePricingDeSelection}
+                    unit={selectedUnit}
+                  />
                 ) : selectedPricingId === 5 ? (
-                  <InventoryItems back={handlePricingDeSelection} />
+                  <InventoryItems
+                    back={handlePricingDeSelection}
+                    unit={selectedUnit}
+                  />
                 ) : selectedPricingId === 6 ? (
-                  <ParkingSlot back={handlePricingDeSelection} />
+                  <ParkingSlot
+                    back={handlePricingDeSelection}
+                    unit={selectedUnit}
+                  />
                 ) : null}
               </div>
             </div>
@@ -899,7 +881,9 @@ const Quotation = () => {
                 className="primaryTitle"
                 style={{ color: "#B3776D", backgroundColor: "#FEEAEA80" }}
               >
-                <div><PoolIcon/> 05 Total Amenities</div>
+                <div>
+                  <PoolIcon /> 05 Total Amenities
+                </div>
                 <div>$ 200.00</div>
               </div>
               <div
@@ -912,8 +896,12 @@ const Quotation = () => {
                 Available Amenities
               </div>
               <div className="amenityListDiv">
-                {amenitis.map((amenity) => (
-                  <div className="amenityDiv" key={amenity.id} style={{paddingBottom:"0px"}}>
+                {amenitiesData.map((amenity) => (
+                  <div
+                    className="amenityDiv"
+                    key={amenity.id}
+                    style={{ paddingBottom: "0px" }}
+                  >
                     <div
                       style={{
                         width: "100%",
@@ -922,7 +910,13 @@ const Quotation = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <div style={{ display: "flex", gap: "10px",marginBottom:"10px" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "10px",
+                          marginBottom: "10px",
+                        }}
+                      >
                         <div>
                           <img
                             style={{
@@ -930,7 +924,7 @@ const Quotation = () => {
                               width: "44px",
                               borderRadius: "5px",
                             }}
-                            src={amenity.path}
+                            src="/amenity.jpeg"
                             alt=""
                           />
                         </div>
@@ -959,39 +953,47 @@ const Quotation = () => {
                       </div>
                       <div>
                         <Switch
-                          {...label}
-                          checked={selectedAmenities.includes(amenity.id)} // Switch state
-                          onChange={() => handleToggleAmenity(amenity.id)} // Toggle handler
+                          checked={selectedAmenities.some(
+                            (item) => item.amenity_id === amenity.id
+                          )}
+                          onChange={() =>
+                            handleToggleAmenity(amenity, selectedUnit.id)
+                          } // Updated handler
                         />
                       </div>
                     </div>
-                    {selectedAmenities.includes(amenity.id)?
-                    <div className="radioFreeDiv">
-                      <FormControl>
-                            <div className="radiobtn">
-                              <FormControlLabel
-                                value={"Free applicability"}
-                                control={<Radio 
+                    {selectedAmenities.some(
+                      (item) => item.amenity_id === amenity.id
+                    ) ? (
+                      <div className="radioFreeDiv">
+                        <FormControl>
+                          <div className="radiobtn">
+                            <FormControlLabel
+                              value={"Free applicability"}
+                              control={
+                                <Radio
                                   sx={{
-                                    '& .MuiSvgIcon-root': {
+                                    "& .MuiSvgIcon-root": {
                                       fontSize: 16, // Adjust this value to reduce the size
-                                      margin:"0px !important"
-                                    }
-                                  }}
-                                />}
-                                slotProps={{
-                                  typography: {
-                                    sx: {
-                                      font: "normal normal 600 12px/16px Nunito Sans",
+                                      margin: "0px !important",
                                     },
+                                  }}
+                                />
+                              }
+                              slotProps={{
+                                typography: {
+                                  sx: {
+                                    font: "normal normal 600 12px/16px Nunito Sans",
                                   },
-                                }}
-                                label={"Free applicability"}
-                                // onClick={() => handleRadioButtonChange(product)}
-                              />
-                            </div>
-                      </FormControl>
-                    </div>:null}
+                                },
+                              }}
+                              label={"Free applicability"}
+                              onChange={() => handleRadioChange(amenity.id)} // Updated handler
+                            />
+                          </div>
+                        </FormControl>
+                      </div>
+                    ) : null}
                   </div>
                 ))}
               </div>
@@ -1005,6 +1007,7 @@ const Quotation = () => {
                   width={"100%"}
                   font={"normal normal bold 14px/19px Nunito Sans"}
                   padding={"10px 16px 10px 16px"}
+                  onClick={handleSelectedAmenities}
                 />
               </div>
             </div>
@@ -1026,7 +1029,9 @@ const Quotation = () => {
                 className="primaryTitle"
                 style={{ color: "#6DAFB3", backgroundColor: "#DBF0F180" }}
               >
-                <div><AutoAwesomeIcon/> 05 Total Utilities</div>
+                <div>
+                  <AutoAwesomeIcon /> 05 Total Utilities
+                </div>
                 <div>$ 200.00</div>
               </div>
               <div
@@ -1039,8 +1044,12 @@ const Quotation = () => {
                 Available Utilities
               </div>
               <div className="amenityListDiv">
-                {utilities.map((amenity) => (
-                  <div className="amenityDiv" key={amenity.id} style={{paddingBottom:"0px"}}>
+                {utilitiesData.map((amenity) => (
+                  <div
+                    className="amenityDiv"
+                    key={amenity.id}
+                    style={{ paddingBottom: "0px" }}
+                  >
                     <div
                       style={{
                         width: "100%",
@@ -1049,7 +1058,13 @@ const Quotation = () => {
                         justifyContent: "space-between",
                       }}
                     >
-                      <div style={{ display: "flex", gap: "10px",marginBottom:"10px" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "10px",
+                          marginBottom: "10px",
+                        }}
+                      >
                         <div>
                           <img
                             style={{
@@ -1057,7 +1072,7 @@ const Quotation = () => {
                               width: "44px",
                               borderRadius: "5px",
                             }}
-                            src={amenity.path}
+                            src="./Utility.jpg"
                             alt=""
                           />
                         </div>
@@ -1092,33 +1107,36 @@ const Quotation = () => {
                         />
                       </div>
                     </div>
-                    {selectedUtilities.includes(amenity.id)?
-                    <div className="radioFreeDiv">
-                      <FormControl>
-                            <div className="radiobtn">
-                              <FormControlLabel
-                                value={"Free applicability"}
-                                control={<Radio 
+                    {selectedUtilities.includes(amenity.id) ? (
+                      <div className="radioFreeDiv">
+                        <FormControl>
+                          <div className="radiobtn">
+                            <FormControlLabel
+                              value={"Free applicability"}
+                              control={
+                                <Radio
                                   sx={{
-                                    '& .MuiSvgIcon-root': {
+                                    "& .MuiSvgIcon-root": {
                                       fontSize: 16, // Adjust this value to reduce the size
-                                      margin:"0px !important"
-                                    }
-                                  }}
-                                />}
-                                slotProps={{
-                                  typography: {
-                                    sx: {
-                                      font: "normal normal 600 12px/16px Nunito Sans",
+                                      margin: "0px !important",
                                     },
+                                  }}
+                                />
+                              }
+                              slotProps={{
+                                typography: {
+                                  sx: {
+                                    font: "normal normal 600 12px/16px Nunito Sans",
                                   },
-                                }}
-                                label={"Free applicability"}
-                                // onClick={() => handleRadioButtonChange(product)}
-                              />
-                            </div>
-                      </FormControl>
-                    </div>:null}
+                                },
+                              }}
+                              label={"Free applicability"}
+                              // onClick={() => handleRadioButtonChange(product)}
+                            />
+                          </div>
+                        </FormControl>
+                      </div>
+                    ) : null}
                   </div>
                 ))}
               </div>
@@ -1133,6 +1151,116 @@ const Quotation = () => {
                   font={"normal normal bold 14px/19px Nunito Sans"}
                   padding={"10px 16px 10px 16px"}
                 />
+              </div>
+            </div>
+          </Box>
+        </Modal>
+        <Modal open={unitDetailModalOpen} onClose={handleCloseUnitDetailsModal}>
+          <Box sx={style2}>
+            <div>
+              <div className="pricingTopDiv">
+                <div className="pricingTbTit">Add Discount to Unit</div>
+                <div>
+                  <ClearIcon
+                    onClick={handleCloseUnitDetailsModal}
+                    style={{ color: "#7C8594", height: "20px", width: "20px" }}
+                  />
+                </div>
+              </div>
+              <div className="unitImgAndDiscriptionDiv">
+                <div>
+                  <div className="unitImgDiv">
+                    <div>
+                      <img
+                        src="/unit1.jpeg"
+                        width={"205px"}
+                        height={"168px"}
+                        style={{ borderRadius: "5px" }}
+                        alt=""
+                      />
+                    </div>
+                    <div className="subImagesDiv">
+                      <img
+                        src="/u1.jpeg"
+                        alt=""
+                        width={"80px"}
+                        height={"80px"}
+                        style={{ borderRadius: "5px" }}
+                      />
+                      <img
+                        src="/u2.jpeg"
+                        alt=""
+                        width={"80px"}
+                        height={"80px"}
+                        style={{ borderRadius: "5px" }}
+                      />
+                      <img
+                        src="/u3.jpeg"
+                        alt=""
+                        width={"80px"}
+                        height={"80px"}
+                        style={{ borderRadius: "5px" }}
+                      />
+                      <img
+                        src="/u4.jpeg"
+                        alt=""
+                        width={"80px"}
+                        height={"80px"}
+                        style={{ borderRadius: "5px" }}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      padding: "20px 0px 8px 0px",
+                    }}
+                  >
+                    <div className="unitDetailsTitle">
+                      {selectedUnit.unit_name}
+                    </div>
+                    <div className="unitId">UNIT-1234</div>
+                  </div>
+                  <div
+                    style={{
+                      font: "normal normal normal 14px/19px Nunito Sans",
+                      color: "#4E5A6B",
+                    }}
+                  >
+                    {selectedUnit.place}
+                  </div>
+                </div>
+                <div className="unitPricingDetailsDiv">
+                  <div>
+                    <div className="t1">UNIT PRICING DETAILS</div>
+                    {combinedBills.map((bills) => (
+                      <div>
+                        <div className="billMainDiv">
+                          <div className="billTitlePrice">
+                            <div>{bills.bill_name}</div>
+                            <div>$ {bills.total}</div>
+                          </div>
+                          <div
+                            className="billDiscountDiv"
+                            style={{
+                              display:
+                                bills.discount_percent === 0 ? "none" : null,
+                            }}
+                          >
+                            <div>Discount</div>
+                            <div>{bills.discount_percent} %</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="billsFinalPriceInfo">
+                    <div>Final Total</div>
+                    <div>$ 1,200</div>
+                  </div>
+                </div>
               </div>
             </div>
           </Box>

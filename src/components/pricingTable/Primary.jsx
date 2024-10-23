@@ -1,67 +1,99 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "../../styles/pricing_component.css";
 import ButtonComponent from "../button/ButtonComponent";
 import Select from "react-select";
 import { TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addPrimaryPrice } from "../../slices/QuotationSlice";
 
 const Primary = (props) => {
   const [selectedRevenueType, setSelectedRevenueType] = useState(1);
   const [selectedComponentBasedOn, setSelectedComponentBasedOn] = useState(1);
-  const revenueTypes = [
-    {
-      id: 1,
-      name: "Lease",
-    },
-    {
-      id: 2,
-      name: "Sales",
-    },
-    {
-      id: 3,
-      name: "Manager",
-    },
-  ];
+  const [selectedPricingComponent, setSelectedPricingComponent] = useState(null)
+  const [selectedTaxGroups,setSelectedTaxGroups] = useState(null)
+  const [uomValue,setUomValue] = useState(null)
+  const [revenueTypesData,setRevenueTypesData] = useState([]);
+  const [pricingComponentData,setPrcingComponentData] = useState([])
+  const [taxGroupsData,setTaxGroupsData] = useState([])
+  const dispatch = useDispatch()
 
-  const pricing_components = [
-    {
-      id: 1,
-      name: "Pricing Component",
-    },
-    {
-      id: 2,
-      name: "Digital Component",
-    },
-  ];
+  const fetchrevenueTyeps = async () => {
+    try{
+        const response = await axios.get('http://localhost:8081/master/revenueTypes')
+        if(response.status === 200){
+            setRevenueTypesData(response.data)
+        }
+    }
+    catch(error){
+        console.log("Error fetching revenue types",error)
+    }
+  }
 
-  const tax_group = [
-    {
-      id: 1,
-      name: "GST",
-    },
-    {
-      id: 2,
-      name: "IGST",
-    },
-    {
-      id: 3,
-      name: "SGST",
-    },
-    {
-      id: 4,
-      name: "UTGST",
-    },
-  ];
+  const fetchPricingComponent = async () => {
+    try{
+        const response = await axios.get('http://localhost:8081/master/pricingComponent')
+        if(response.status === 200){
+            setPrcingComponentData(response.data)
+        }
+    }
+    catch(error){
+        console.log("Error fetching pricing Compoennts",error)
+    }
+  }
 
-  const PricingList = pricing_components.map((price) => ({
+  const fetchTaxGroups = async () => {
+    try{
+        const response = await axios.get('http://localhost:8081/master/taxGroups')
+        if(response.status === 200){
+            setTaxGroupsData(response.data)
+        }
+    }
+    catch(error){
+        console.log("Error fetching Tax Groups",error)
+    }
+  }
+  
+
+  useEffect(() => {
+    fetchrevenueTyeps()
+    fetchPricingComponent()
+    fetchTaxGroups()
+  }, [])
+
+  const PricingList = pricingComponentData.map((price) => ({
     value: price.id,
     label: price.name,
   }));
 
-  const TaxList = tax_group.map((tax) => ({
+  const TaxList = taxGroupsData.map((tax) => ({
     value: tax.id,
     label: tax.name,
   }));
+
+  const handlePricingComponent = (selectedOption) => {
+    setSelectedPricingComponent(selectedOption.value)
+  }
+
+  const handleTaxGroups = (selectedOption) => {
+    setSelectedTaxGroups(selectedOption.value)
+  }
+
+  const handleCreatePrimaryComponent = () => {
+    dispatch(addPrimaryPrice({
+        bill_name:"Primary Pricing",
+        revenue_id:selectedRevenueType,
+        tax_group_id:selectedTaxGroups,
+        pricing_component_id:selectedPricingComponent,
+        unit_id:props.unit.id,
+        price:uomValue,
+        discount_percent:0,
+        discount_amount:0,
+        total:uomValue
+    }))
+    console.log("dispatch called");
+  }
 
   const customStyles = {
     control: (provided) => ({
@@ -100,7 +132,7 @@ const Primary = (props) => {
         <div>
           <div className="subTitPrimary">Revenue Type</div>
           <div style={{ display: "flex", gap: "5px" }}>
-            {revenueTypes.map((revenue) => (
+            {revenueTypesData.map((revenue) => (
               <ButtonComponent
                 value={revenue.name}
                 variant={"outlined"}
@@ -115,6 +147,7 @@ const Primary = (props) => {
                   revenue.id === selectedRevenueType ? "#ffffff" : "#4E5A6B"
                 }
                 padding={"10px 9px 10px 9px"}
+                onClick={()=>setSelectedRevenueType(revenue.id)}
               />
             ))}
           </div>
@@ -128,6 +161,7 @@ const Primary = (props) => {
               options={PricingList}
               placeholder=""
               styles={customStyles}
+              onChange={(selectedOption)=>handlePricingComponent(selectedOption)}
             />
           </div>
         </div>
@@ -148,6 +182,7 @@ const Primary = (props) => {
               options={TaxList}
               placeholder=""
               styles={customStyles}
+              onChange={(selectedOption)=>handleTaxGroups(selectedOption)}
             />
           </div>
         </div>
@@ -162,6 +197,7 @@ const Primary = (props) => {
               font={"normal normal 600 14px/19px Nunito Sans"}
               color={selectedComponentBasedOn === 1 ? "#ffffff" : "#4E5A6B"}
               padding={"10px 9px 10px 9px"}
+              onClick={()=>setSelectedComponentBasedOn(1)}
             />
             <ButtonComponent
               value={"UOM"}
@@ -171,6 +207,7 @@ const Primary = (props) => {
               font={"normal normal 600 14px/19px Nunito Sans"}
               color={selectedComponentBasedOn === 2 ? "#ffffff" : "#4E5A6B"}
               padding={"10px 9px 10px 9px"}
+              onClick={()=>setSelectedComponentBasedOn(2)}
             />
           </div>
         </div>
@@ -180,6 +217,7 @@ const Primary = (props) => {
         <div>
           <TextField
             size="small"
+            type="number"
             sx={{ width: "100%",font:"normal normal 600 14px/19px Nunito Sans" }}
             slotProps={{
               input: {
@@ -197,6 +235,7 @@ const Primary = (props) => {
                 ),
               },
             }}
+            onChange={(e)=>{setUomValue(parseInt(e.target.value)),console.log(e.target.value)}}
           />
         </div>
       </div>
@@ -269,6 +308,7 @@ const Primary = (props) => {
           font={"normal normal 600 14px/19px Nunito Sans"}
           color={"#ffffff"}
           padding={"12px 24px 12px 24px"}
+          onClick={handleCreatePrimaryComponent}
         />
       </div>
     </div>
